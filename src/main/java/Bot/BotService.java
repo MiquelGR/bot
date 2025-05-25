@@ -10,13 +10,13 @@ public class BotService {
 
     public BotService() {
         this.model = OllamaChatModel.builder()
-                .baseUrl("http://localhost:11434")  // O `http://ollama:11434` si usas Docker
-                .modelName("templanza")             // Nombre del modelo cargado con Modelfile
+                .baseUrl("http://ollama:11434")
+                .modelName("templanza") // ← el que se construyó desde el Modelfile
                 .build();
     }
 
     public String getResponse(String prompt) {
-        return model.generate(prompt);
+        return model.chat(prompt);
     }
 }
 
