@@ -10,8 +10,8 @@ public class BotService {
 
     public BotService() {
         this.model = OllamaChatModel.builder()
-                .baseUrl("http://ollama:11434")
-                .modelName("templanza") // ← el que se construyó desde el Modelfile
+                .baseUrl("http://localhost:11434")
+                .modelName("temperanza-bot") // ← el que se construyó desde el Modelfile
                 .build();
     }
 
