@@ -1,23 +1,26 @@
 package Bot;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/bot")
+@RequestMapping("/api/v0/bot")
 public class BotController {
 
     private final BotService botService;
 
-    @Autowired
     public BotController(BotService botService) {
         this.botService = botService;
     }
 
-    @PostMapping("/chat")
-    public ResponseEntity<String> chat(@RequestBody String prompt) {
-        String response = botService.getResponse(prompt);
-        return ResponseEntity.ok(response);
+    @GetMapping("/health/{botId}")
+    public ResponseEntity<String> checkBotHealth(@PathVariable("botId") Long botId) {
+        boolean isHealthy = botService.isBotHealthy(botId);
+
+        if (isHealthy) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(503).body("Bot service is unavailable");
+        }
     }
 }

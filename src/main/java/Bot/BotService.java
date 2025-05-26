@@ -1,22 +1,30 @@
 package Bot;
 
-import dev.langchain4j.model.ollama.OllamaChatModel;
 import org.springframework.stereotype.Service;
+import dev.langchain4j.model.ollama.OllamaChatModel;
 
 @Service
 public class BotService {
 
-    private final OllamaChatModel model;
+    private final OllamaChatModel ollamaChatModel;
 
     public BotService() {
-        this.model = OllamaChatModel.builder()
+        this.ollamaChatModel = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("temperanza-bot") // ← el que se construyó desde el Modelfile
+                .modelName("temperanza-bot")
                 .build();
     }
 
-    public String getResponse(String prompt) {
-        return model.chat(prompt);
+    public boolean isBotHealthy(Long botId) {
+        try {
+            // Enviar un mensaje simple como "ping" al bot
+            String response = ollamaChatModel.chat("ping");
+
+            // Si el bot responde, asumimos que está operativo
+            return response != null && !response.isEmpty();
+        } catch (Exception e) {
+            // Si ocurre una excepción, el bot no está disponible
+            return false;
+        }
     }
 }
-
