@@ -11,6 +11,7 @@ public class MessageController {
 
     private final MessageService messageService;
     private final RestTemplate restTemplate;
+    private final String baseUrl = "http://localhost:8080/api/v0/message/";
 
     public MessageController(MessageService messageService, RestTemplate restTemplate) {
         this.messageService = messageService;
@@ -32,8 +33,7 @@ public class MessageController {
         responseMessage.setText(messageResponse);
         responseMessage.setTime(java.time.LocalDateTime.now());
 
-        // URL for localhost:8080
-        String targetUrl = "http://localhost:8080/api/v0/message/" + matchId;
+        String targetUrl = baseUrl + matchId;
 
         // Create the request with the MessageDTO body
         HttpEntity<MessageDTO> request = new HttpEntity<>(responseMessage);
